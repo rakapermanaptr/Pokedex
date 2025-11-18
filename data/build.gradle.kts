@@ -33,11 +33,20 @@ android {
 }
 
 dependencies {
+    api(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // ktor
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.negotiation)
+    implementation(libs.ktor.json)
+    implementation(libs.ktor.logging)
+
+    // koin
+    implementation(libs.koin.core)
 }

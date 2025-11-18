@@ -10,6 +10,8 @@ activityCompose = "1.11.0"
 composeBom = "2024.09.00"
 appcompat = "1.7.1"
 material = "1.13.0"
+ktor = "3.3.0"
+koin = "4.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,6 +30,16 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor"}
+ktor-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor"}
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor"}
+ktor-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor"}
+ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor"}
+
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin"}
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin"}
+koin-viewModel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
