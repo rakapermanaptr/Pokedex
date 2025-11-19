@@ -15,5 +15,6 @@ data class Result(
 )
 
 fun Result.toDomain() = Pokemon(
-    name = name.orEmpty()
+    name = name.orEmpty(),
+    url = url.orEmpty()
 )
