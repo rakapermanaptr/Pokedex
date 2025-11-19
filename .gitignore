@@ -1,15 +1,55 @@
-*.iml
-.gradle
+# Gradle
+.gradle/
+build/
+!gradle-wrapper.jar
+
+# Local configuration
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+
+# OS generated
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+*.log
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Ignore .idea except code styles and run configurations (optional)
+# !.idea/codeStyles/
+# !.idea/runConfigurations/
+
+# Android Studio captures
+captures/
+
+# External native build folder
+.externalNativeBuild/
+.cxx/
+
+# Kotlin
+/.kotlin/
+
+# JetBrains misc
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries/
+
+# Misc
+*.orig
+*.rej
+*.swp
+*.swo
+*.bak
+
+# Local build outputs
+*.apk
+*.ap_
+*.aab
+*.jar
+*.war
+*.ear
+
+# Proguard
+/proguard/
