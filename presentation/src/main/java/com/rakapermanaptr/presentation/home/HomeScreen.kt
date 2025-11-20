@@ -1,20 +1,21 @@
 package com.rakapermanaptr.presentation.home
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,7 +28,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeViewModel = koinViewModel()) {
 
-    val pokemons by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     LazyVerticalGrid(
         modifier = Modifier.padding(paddingValues),
@@ -35,9 +36,26 @@ fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeViewModel = koinView
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        itemsIndexed(pokemons) { index, item ->
+        itemsIndexed(state.pokemonList) { index, item ->
             val isEven = index % 2 == 0
             CardPokemon(item, isEven)
+
+            if (index >= state.pokemonList.size - 5 && state.hasNextPage) {
+                LaunchedEffect(index) {
+                    viewModel.getPokemonList()
+                }
+            }
+        }
+
+        if (state.isLoading) {
+            item(span = { GridItemSpan(2) }) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                        .padding(16.dp)
+                )
+            }
         }
     }
 }
