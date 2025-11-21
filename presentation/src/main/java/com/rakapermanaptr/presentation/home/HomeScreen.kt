@@ -20,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.rakapermanaptr.domain.home.entity.Pokemon
@@ -31,7 +32,9 @@ fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeViewModel = koinView
     val state by viewModel.state.collectAsState()
 
     LazyVerticalGrid(
-        modifier = Modifier.padding(paddingValues),
+        modifier = Modifier
+            .padding(paddingValues)
+            .padding(horizontal = 8.dp),
         columns = GridCells.Fixed(count = 2),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -74,13 +77,13 @@ private fun CardPokemon(pokemon: Pokemon, isEvent: Boolean) {
             if (isEvent) {
                 Text(text = pokemon.name)
                 AsyncImage(
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier.size(80.dp),
                     model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png",
                     contentDescription = null
                 )
             } else {
                 AsyncImage(
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier.size(80.dp),
                     model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png",
                     contentDescription = null
                 )
