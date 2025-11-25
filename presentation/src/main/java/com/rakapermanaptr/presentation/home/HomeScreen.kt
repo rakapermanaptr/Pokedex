@@ -31,6 +31,10 @@ fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeViewModel = koinView
 
     val state by viewModel.state.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(HomeViewEvent.Initial)
+    }
+
     LazyVerticalGrid(
         modifier = Modifier
             .padding(paddingValues)
@@ -45,7 +49,7 @@ fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeViewModel = koinView
 
             if (index >= state.pokemonList.size - 5 && state.hasNextPage) {
                 LaunchedEffect(index) {
-                    viewModel.getPokemonList()
+                    viewModel.onEvent(HomeViewEvent.LoadPokemons)
                 }
             }
         }

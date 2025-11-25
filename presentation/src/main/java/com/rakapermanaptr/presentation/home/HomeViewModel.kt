@@ -2,6 +2,7 @@ package com.rakapermanaptr.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rakapermanaptr.base.BaseViewModel
 import com.rakapermanaptr.domain.home.entity.Pokemon
 import com.rakapermanaptr.domain.home.usecase.GetPokemonListUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,42 +11,40 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val getPokemonListUseCase: GetPokemonListUseCase): ViewModel() {
+class HomeViewModel(private val getPokemonListUseCase: GetPokemonListUseCase) :
+    BaseViewModel<HomeViewEvent, HomeViewState, HomeViewEffect>(
+        initialState = HomeViewState()
+    ) {
 
-    private val _state = MutableStateFlow(PokemonListState())
-    val state: StateFlow<PokemonListState> = _state.asStateFlow()
+    override suspend fun handleEvent(event: HomeViewEvent) {
+        when (event) {
+            HomeViewEvent.Initial -> getPokemonList()
+            HomeViewEvent.LoadPokemons -> getPokemonList()
+        }
+    }
 
     private var currentOffset = 0
     private var pageSize = 20
 
-    init {
-        getPokemonList()
-    }
-
     fun getPokemonList() {
-        _state.update { it.copy(isLoading = true) }
+        setState { copy(isLoading = true) }
         viewModelScope.launch {
             runCatching {
                 getPokemonListUseCase(currentOffset, pageSize)
-            }.onSuccess { pokemonList ->
-                _state.update {
-                    it.copy(
-                        pokemonList = it.pokemonList + pokemonList.pokemonList,
-                        hasNextPage = pokemonList.nextOffset != null,
-                        isLoading = false
+            }.onSuccess { result ->
+                setState {
+                    copy(
+                        isLoading = false,
+                        hasNextPage = result.nextOffset != null,
+                        pokemonList = pokemonList + result.pokemonList
                     )
                 }
 
-                currentOffset = pokemonList.nextOffset ?: currentOffset
+                currentOffset = result.nextOffset ?: currentOffset
             }.onFailure {
-                _state.update { it.copy(isLoading = false) }
+                setState { copy(isLoading = false) }
+                setEffect { HomeViewEffect.ShowErrorMessage(it.message.orEmpty()) }
             }
         }
     }
 }
-
-data class PokemonListState(
-    val isLoading: Boolean = false,
-    val pokemonList: List<Pokemon> = emptyList(),
-    val hasNextPage: Boolean = true
-)
