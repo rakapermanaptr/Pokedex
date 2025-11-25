@@ -26,7 +26,7 @@ class HomeViewModel(private val getPokemonListUseCase: GetPokemonListUseCase) :
     private var currentOffset = 0
     private var pageSize = 20
 
-    fun getPokemonList() {
+    private fun getPokemonList() {
         setState { copy(isLoading = true) }
         viewModelScope.launch {
             runCatching {
