@@ -1,14 +1,8 @@
 package com.rakapermanaptr.presentation.home
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rakapermanaptr.base.BaseViewModel
-import com.rakapermanaptr.domain.home.entity.Pokemon
 import com.rakapermanaptr.domain.home.usecase.GetPokemonListUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val getPokemonListUseCase: GetPokemonListUseCase) :
